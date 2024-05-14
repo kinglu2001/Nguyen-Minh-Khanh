@@ -3,7 +3,11 @@
 import string
 from datetime import datetime, timedelta
 
-list_trail = [alp+str(num) for alp in list(string.ascii_lowercase) for num in range(0,10)]
+list_trail_1 = [alp+str(num) for alp in list(string.ascii_lowercase) for num in range(0,10) ]
+list_trail_2 = [alp+str(num) for alp in list(string.ascii_uppercase) for num in range(0,10) ]
+list_trail_3 = [alp1+alp2 for alp1 in list(string.ascii_uppercase) for alp2 in list(string.ascii_lowercase) ]
+list_trail_4 = [alp2+alp1 for alp1 in list(string.ascii_uppercase) for alp2 in list(string.ascii_lowercase) ]
+list_trail = list_trail_1 + list_trail_2 + list_trail_3 + list_trail_4
 
 # Extract information
 prefix_ext_name =  input('Extract name (E_T24 then name will be E_T2401): ').strip().upper()
@@ -103,3 +107,13 @@ else:
                 'EOF\n'
             )
     print("-"*40 + f"\nFile {filename} has been created.\n" + "-"*40)
+
+    # generate add replicat cmd
+    with open(f'{prefix_rep_name}_add.txt', 'w') as file2:
+        for i in range(1, int(num_of_thread)+1):
+            rep_name = prefix_rep_name + str("{:03d}".format(i))
+            file2.write(
+                f"\nadd replicat {rep_name} exttrail {full_path_dirdat}/{list_trail[i-1]}\n"
+            )
+        print("-"*40 + f"\nFile {prefix_rep_name}_add.txt has been created.\n" + "-"*40)
+    file.close()
